@@ -114,7 +114,6 @@
   "optionalDependencies": {
     "windows-foreground-love": "0.1.0",
     "windows-mutex": "^0.2.0",
-    "fsevents": "0.3.8",
-    "vsda": "Microsoft/vscode-debug-handshake"
+    "fsevents": "0.3.8"
   }
 }

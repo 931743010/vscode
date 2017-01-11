@@ -414,11 +414,6 @@
       "from": "vscode-textmate@3.1.0",
       "resolved": "https://registry.npmjs.org/vscode-textmate/-/vscode-textmate-3.1.0.tgz"
     },
-    "vsda": {
-      "version": "1.0.0",
-      "from": "microsoft/vscode-debug-handshake",
-      "resolved": "git+https://github.com/microsoft/vscode-debug-handshake.git#a1879c17f7aba79945ec9e5f66f5431f20fdf79e"
-    },
     "windows-foreground-love": {
       "version": "0.1.0",
       "from": "windows-foreground-love@0.1.0",
