@@ -278,7 +278,7 @@ export class DebugService implements debug.IDebugService {
 					thread.fetchCallStack().then(callStack => {
 						if (callStack.length > 0 && !this.viewModel.focusedStackFrame) {
 							// focus first stack frame from top that has source location if no other stack frame is focussed
-							const stackFrameToFocus = first(callStack, sf => sf.source && sf.source.available, callStack[0]);
+							const stackFrameToFocus = first(callStack, sf => sf.source && !sf.source.deemphasize, callStack[0]);
 							this.focusStackFrameAndEvaluate(stackFrameToFocus).done(null, errors.onUnexpectedError);
 							this.windowService.getWindow().focus();
 							aria.alert(nls.localize('debuggingPaused', "Debugging paused, reason {0}, {1} {2}", event.body.reason, stackFrameToFocus.source ? stackFrameToFocus.source.name : '', stackFrameToFocus.lineNumber));
@@ -694,7 +694,7 @@ export class DebugService implements debug.IDebugService {
 					this.panelService.openPanel(debug.REPL_ID, false).done(undefined, errors.onUnexpectedError);
 				}
 
-				if (!this.viewModel.changedWorkbenchViewState && this.partService.isVisible(Parts.SIDEBAR_PART)) {
+				if (!this.viewModel.changedWorkbenchViewState && (this.partService.isVisible(Parts.SIDEBAR_PART) || !this.contextService.getWorkspace())) {
 					// We only want to change the workbench view state on the first debug session #5738 and if the side bar is not hidden
 					this.viewModel.changedWorkbenchViewState = true;
 					this.viewletService.openViewlet(debug.VIEWLET_ID);
@@ -920,7 +920,7 @@ export class DebugService implements debug.IDebugService {
 			return session.setBreakpoints({
 				source: rawSource,
 				lines: breakpointsToSend.map(bp => bp.lineNumber),
-				breakpoints: breakpointsToSend.map(bp => ({ line: bp.lineNumber, condition: bp.condition, hitCondition: bp.hitCondition, column: bp.column })),
+				breakpoints: breakpointsToSend.map(bp => ({ line: bp.lineNumber, condition: bp.condition, hitCondition: bp.hitCondition })),
 				sourceModified
 			}).then(response => {
 				if (!response || !response.body) {
